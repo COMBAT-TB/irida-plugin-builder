@@ -15,3 +15,5 @@ RUN mv /root/.m2/repository/irida-wf-ga2xml-1.1.0-standalone.jar /
 RUN apk add python3 libxml2 libxslt bzip2 \
     && apk add --virtual .build-deps py3-pip gcc make libxml2-dev libxslt-dev python3-dev musl-dev bzip2-dev \
     && pip install ephemeris 
+COPY insert_tool_file.sh /insert_tool_file.sh
+RUN apk add openjdk11 && chmod +x /insert_tool_file.sh
