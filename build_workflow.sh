@@ -25,15 +25,11 @@ if [ $jar_count -gt 1 ] ; then
   echo "WARNING: more than one output jar, some build steps will not run" >& 2
 else
   jar_filename=$(ls $WORKFLOW_NAME/target/*.jar)
-fi
-
-for ga_file  in $(find $WORKFLOW_NAME -name \*.ga|sed 's^.*src/^src/^') ; do
-  version=$(echo $ga_file|cut -d/ -f5)
+  version=$(grep '<plugin.version>' $WORKFLOW_NAME/pom.xml  |sed -r 's/.*>([^<]*)<.*/\1/')
+  ga_file=$WORKFLOW_NAME/src/main/resources/workflows/$version/irida_workflow_structure.ga
   workflow_dir=$(dirname $ga_file)
-  if [ $jar_count -eq 1 ] ; then
-      docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 sh /insert_tool_file.sh $ga_file $workflow_dir $version $jar_filename
-  fi
-done
+  docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 sh /insert_tool_file.sh $ga_file $workflow_dir $version $jar_filename
+fi
 
 cp $WORKFLOW_NAME/target/*.jar $DESTINATION
 docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 mvn clean
