@@ -14,6 +14,4 @@ RUN mkdir /root/.m2 && mv /root/repository /root/.m2/
 RUN mv /root/.m2/repository/irida-wf-ga2xml-1.1.0-standalone.jar /
 RUN apk add python3 libxml2 libxslt bzip2 \
     && apk add --virtual .build-deps py3-pip gcc make libxml2-dev libxslt-dev python3-dev musl-dev bzip2-dev \
-    && pip install ephemeris \
-    && pip cache purge \
-    && apk del .build-deps
+    && pip install ephemeris 
