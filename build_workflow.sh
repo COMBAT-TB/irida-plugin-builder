@@ -31,7 +31,7 @@ for ga_file  in $(find $WORKFLOW_NAME -name \*.ga|sed 's^.*src/^src/^') ; do
   version=$(echo $ga_file|cut -d/ -f5)
   workflow_dir=$(dirname $ga_file)
   if [ $jar_count -eq 1 ] ; then
-      docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 sh /insert_too_file.sh $ga_file $workflow_dir $version $jar_filename
+      docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 sh /insert_tool_file.sh $ga_file $workflow_dir $version $jar_filename
   fi
 done
 
