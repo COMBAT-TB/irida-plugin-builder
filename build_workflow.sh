@@ -27,7 +27,7 @@ else
   jar_filename=$(ls $WORKFLOW_NAME/target/*.jar)
   version=$(grep '<plugin.version>' $WORKFLOW_NAME/pom.xml  |sed -r 's/.*>([^<]*)<.*/\1/')
   ga_file=$WORKFLOW_NAME/src/main/resources/workflows/$version/irida_workflow_structure.ga
-  workflow_dir=$(dirname $ga_file)
+  workflow_dir=$WORKFLOW_NAME/workflows/$version
   docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 sh /insert_tool_file.sh $ga_file $workflow_dir $version $jar_filename
 fi
 
