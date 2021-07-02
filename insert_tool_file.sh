@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/bin/sh -x
+
+if [ $# != 4 ] ; then
+  echo "Need 4 parameters, got: $*" >&2
+  exit 1
+fi
 
 ga_file=$1
 workflow_dir=$2
