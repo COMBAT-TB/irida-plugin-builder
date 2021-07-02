@@ -19,6 +19,10 @@ if [ ! -d $DESTINATION ] ; then
     exit 1
 fi
 
-docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.01 mvn clean install
+docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 mvn clean install
 cp $WORKFLOW_NAME/target/*.jar $DESTINATION
-docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.01 mvn clean
+docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 mvn clean
+for ga_file  in $(find $WORKFLOW_NAME -name \*.ga|sed 's^.*src/^src/^') ; do
+  version=$(echo $ga_file|cut -d/ -f5)
+  docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:21.05 workflow-to-tools -w /pipelines/$ga_file -o tools_$version.yaml
+done
