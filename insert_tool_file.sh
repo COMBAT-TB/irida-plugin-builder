@@ -11,7 +11,8 @@ version=$3
 jar_filename=$4
 
 mkdir -p $workflow_dir
-workflow-to-tools -w /pipelines/$ga_file -o $workflow_dir/tools.yaml
+workflow_name = $(python -c 'import json; import sys; import shlex; data = json.load(open(sys.argv[1])); print(shlex.quote(data["name"]))' $ga_file) 
+workflow-to-tools -l $workflow_name -w /pipelines/$ga_file -o $workflow_dir/tools.yaml
 /usr/lib/jvm/default-jvm/bin/jar uf $jar_filename $workflow_dir/tools.yaml
 rm $workflow_dir/tools.yaml
 num_files=`ls $workflow_dir | wc -l`
