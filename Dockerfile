@@ -1,7 +1,7 @@
 FROM ubuntu:20.04 as builder
 LABEL org.opencontainers.image.authors="Peter van Heusden <pvh@sanbi.ac.za>"
 
-ENV IRIDA_TAG=21.05
+ENV IRIDA_TAG=21.09.2
 RUN apt update && DEBIAN_FRONTEND="noninteractive" apt install -y default-jdk-headless maven git
 RUN git clone --depth 1 -b $IRIDA_TAG https://github.com/phac-nml/irida.git && cd irida/lib && bash install-libs.sh && cd ..
 RUN cd irida && mvn clean install -Djetty.skip=true -DskipTests
