@@ -19,7 +19,7 @@ if [ ! -d $DESTINATION ] ; then
     exit 1
 fi
 
-IRIDA_BUILD_VERSION=21.05
+IRIDA_BUILD_VERSION=21.09.2
 docker run --workdir /pipelines/$WORKFLOW_NAME --rm -v $(pwd):/pipelines quay.io/combattb/irida-builder:$IRIDA_BUILD_VERSION mvn clean install
 jar_count=$(ls $WORKFLOW_NAME/target/*.jar |wc -l)
 if [ $jar_count -gt 1 ] ; then
