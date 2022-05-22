@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.authors="Peter van Heusden <pvh@sanbi.ac.za>"
 ENV IRIDA_TAG=21.09.2
 RUN apt update && DEBIAN_FRONTEND="noninteractive" apt install -y default-jdk-headless maven git
 RUN git clone --depth 1 -b $IRIDA_TAG https://github.com/phac-nml/irida.git && cd irida/lib && bash install-libs.sh && cd ..
-RUN cd irida && mvn clean install -Djetty.skip=true -DskipTests
+RUN cd irida && sed -i 's/22.01-SNAPSHOT/21.09.2/' pom.xml && mvn clean install -Djetty.skip=true -DskipTests
 RUN cd /root/.m2/repository && apt install -y wget && wget https://github.com/phac-nml/irida-wf-ga2xml/releases/download/v1.1.0/irida-wf-ga2xml-1.1.0-standalone.jar 
 
 FROM alpine:latest 
